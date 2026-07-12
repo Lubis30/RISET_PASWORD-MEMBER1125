@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Kode Buah - Edisi Final Saul & Robin</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            background: url('thumb-1920-1409704.jpg') no-repeat center center fixed;
+            background-size: cover;
+            background-color: #1c2e4a; 
+            transition: background 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #snowflake-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none !important;
+            z-index: 1;
+        }
+
+        .snowflake {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none !important;
+            opacity: 0.8;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+
+        .card { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px);
+            padding: 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+            text-align: center; 
+            max-width: 400px; 
+            width: 90%; 
+            border: 4px solid #e67e22; 
+            position: relative;
+            z-index: 100; 
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .card {
+            background: rgba(20, 24, 33, 0.9); 
+            border-color: #f1c40f; 
+        }
+
+        .dark-mode h2 { color: #f1c40f !important; }
+        .dark-mode #nameDisplay { background: #2c3e50; color: #f1c40f; border-color: #f1c40f; }
+        .dark-mode .output-textarea { background: #2c3e50; color: #fff; border-color: #f1c40f; }
+        .dark-mode .quote-container { background: rgba(255, 255, 255, 0.05); border-left: 4px solid #f1c40f; color: #ddd; }
+        .dark-mode .quote-author { color: #f1c40f; }
+
+        h2 {
+            color: #2c3e50; 
+            margin-top: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .btn-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button { 
+            background-color: #e74c3c; 
+            color: white; 
+            border: none; 
+            padding: 14px 24px; 
+            font-size: 16px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        button:hover { background-color: #c0392b; transform: translateY(-2px); }
+        button:active { transform: scale(0.95); }
+
+        .copy-btn { background-color: #27ae60; }
+        .copy-btn:hover { background-color: #219a52; }
+
+        .theme-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            box-shadow: none;
+            transition: transform 0.2s ease;
+            z-index: 200;
+        }
+        .theme-toggle:hover { transform: scale(1.2); background: none; }
+
+        #nameDisplay { 
+            font-size: 26px; 
+            font-weight: bold; 
+            margin: 20px 0 10px 0; 
+            min-height: 38px; 
+            color: #d35400; 
+            padding: 12px; 
+            background: #fdf6e2; 
+            border-radius: 8px; 
+            border: 2px dashed #e67e22; 
+            letter-spacing: 2px; 
+            transition: all 0.3s ease;
+        }
+
+        .output-textarea {
+            width: 100%;
+            height: 80px;
+            margin: 10px 0 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #e67e22;
+            background: #fffdf9;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            resize: none;
+            box-sizing: border-box; 
+            font-weight: bold;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .quote-container {
+            margin-top: 20px;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.03);
+            border-left: 4px solid #e67e22;
+            border-radius: 4px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+        .quote-text { font-style: italic; font-size: 14.5px; line-height: 1.5; color: #555; margin: 0 0 6px 0; }
+        .quote-author { font-size: 12px; font-weight: bold; color: #e67e22; text-align: right; margin: 0; }
+        #alert { color: #27ae60; font-size: 14px; height: 20px; font-weight: bold; margin-top: 5px; }
+    </style>
+</head>
+<body class="dark-mode">
+
+    <div id="snowflake-container"></div>
+
+    <div class="card">
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀️</button>
+
+        <h2>🏴‍☠️ Straw Hat Fruit Generator 🍊</h2>
+        <div id="nameDisplay">klik tombol di bawah</div>
+        
+        <textarea id="formatDisplay" class="output-textarea" readonly placeholder="Format teks akan muncul di sini..."></textarea>
+
+        <div class="btn-container">
+            <button onclick="generateFruitNumberCode()">Acak Kode</button>
+            <button class="copy-btn" onclick="copyCode()">Salin Kode</button>
+        </div>
+        
+        <div id="alert"></div>
+
+        <div class="quote-container">
+            <p class="quote-text">"Laut itu luas... Suatu hari nanti, pasti akan muncul teman yang akan melindungimu!"</p>
+            <p class="quote-author">— Jaguar D. Saul</p>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('snowflake-container');
+        const maxSnowflakes = 40;
+
+        function createSnowflake() {
+            if (container.children.length >= maxSnowflakes) return;
+
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+
+            const size = Math.random() * 4 + 2;
+            snowflake.style.width = `${size}px`;
+            snowflake.style.height = `${size}px`;
+            snowflake.style.left = `${Math.random() * 100}%`;
+            snowflake.style.top = `-10px`;
+
+            container.appendChild(snowflake);
+
+            let topPos = -10;
+            let leftPos = parseFloat(snowflake.style.left);
+            const drift = Math.random() * 0.4 - 0.2;
+
+            const fallInterval = setInterval(() => {
+                topPos += Math.random() * 1 + 0.5;
+                leftPos += drift;
+
+                snowflake.style.top = `${topPos}px`;
+                snowflake.style.left = `${leftPos}%`;
+
+                if (topPos > window.innerHeight) {
+                    clearInterval(fallInterval);
+                    snowflake.remove();
+                }
+            }, 20);
+        }
+
+        setInterval(createSnowflake, 300);
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeBtn = document.getElementById("themeBtn");
+            body.classList.toggle("dark-mode");
+            themeBtn.innerText = body.classList.contains("dark-mode") ? "☀️" : "🌙";
+        }
+
+        const fruits = ["apel", "jeruk", "mangga", "pisang", "melon", "durian", "jambu", "nanas", "anggur", "pepaya", "salak", "manggis"];
+
+        function generateFruitNumberCode() {
+            const display = document.getElementById("nameDisplay");
+            const formatDisplay = document.getElementById("formatDisplay");
+            document.getElementById("alert").innerText = ""; 
+
+            const randomIndex = Math.floor(Math.random() * fruits.length);
+            let result = fruits[randomIndex];
+            
+            if (result.length > 5) {
+                result = result.substring(0, 5);
+            }
+            
+            while (result.length < 8) {
+                const randomDigit = Math.floor(Math.random() * 10);
+                result += randomDigit;
+            }
+            
+            display.innerText = result.toLowerCase();
+            formatDisplay.value = `User id : \nKata sandi : ${result.toLowerCase()}\nSilakan dicoba ya bosku , terima kasih`;
+        }
+
+        function copyCode() {
+            const formatDisplay = document.getElementById("formatDisplay");
+            const alertDiv = document.getElementById("alert");
+            const textToCopy = formatDisplay.value;
+
+            if (textToCopy === "") {
+                alertDiv.style.color = "#e74c3c";
+                alertDiv.innerText = "🚨 Acak kode terlebih dahulu!";
+                return;
+            }
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alertDiv.style.color = "#27ae60";
+                alertDiv.innerText = "📋 Format Teks berhasil disalin!";
+                
+                setTimeout(() => {
+                    alertDiv.innerText = "";
+                }, 2000);
+            }).catch(err => {
+                alertDiv.style.color = "#e74c3c";
+                alertDiv.innerText = "Gagal menyalin kode.";
+            });
+        }
+    </script>
+</body>
+</html>
