@@ -1,283 +1,330 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Kode Buah - Edisi Final Saul & Robin</title>
-    <style>
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            margin: 0; 
-            background: url('thumb-1920-1409704.jpg') no-repeat center center fixed;
-            background-size: cover;
-            background-color: #1c2e4a; 
-            transition: background 0.3s ease;
-            overflow: hidden;
-            position: relative;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Straw Hat Reset — Preview</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700;800&display=swap');
 
-        #snowflake-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none !important;
-            z-index: 1;
-        }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh;
+    font-family: 'Inter', system-ui, sans-serif;
+    background:
+      radial-gradient(ellipse 500px 400px at 50% 0%, rgba(251,191,36,0.16), transparent 70%),
+      radial-gradient(ellipse 400px 320px at 100% 100%, rgba(220,38,38,0.18), transparent 70%),
+      linear-gradient(180deg, rgba(8,10,22,0.75), rgba(6,8,18,0.95)),
+      url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 16px;
+    overflow-x: hidden;
+    position: relative;
+  }
 
-        .snowflake {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none !important;
-            opacity: 0.8;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-        }
+  #snow { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .flake {
+    position: absolute; top: -20px; border-radius: 50%; background: #fff;
+    box-shadow: 0 0 6px rgba(255,255,255,0.85);
+    animation: snowfall linear infinite;
+  }
+  @keyframes snowfall {
+    0% { transform: translate3d(0,-20px,0); }
+    100% { transform: translate3d(var(--drift), 105vh, 0); }
+  }
 
-        .card { 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(8px); 
-            -webkit-backdrop-filter: blur(8px);
-            padding: 30px; 
-            border-radius: 20px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-            text-align: center; 
-            max-width: 400px; 
-            width: 90%; 
-            border: 4px solid #e67e22; 
-            position: relative;
-            z-index: 100; 
-            transition: all 0.3s ease;
-        }
+  .card-frame {
+    position: relative; z-index: 10; width: 100%; max-width: 420px;
+    border-radius: 28px; padding: 1.5px;
+    background: linear-gradient(135deg, rgba(251,191,36,0.7), rgba(252,211,77,0.4), rgba(220,38,38,0.6));
+    box-shadow: 0 30px 80px -15px rgba(0,0,0,0.85);
+  }
+  .card {
+    position: relative; overflow: hidden; border-radius: 27px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(2,6,20,0.92);
+    backdrop-filter: blur(24px);
+    padding: 28px;
+  }
+  .sheen {
+    position: absolute; right: -64px; top: -64px; width: 160px; height: 160px;
+    border-radius: 50%; background: rgba(251,191,36,0.2); filter: blur(48px);
+    pointer-events: none;
+  }
 
-        .dark-mode .card {
-            background: rgba(20, 24, 33, 0.9); 
-            border-color: #f1c40f; 
-        }
+  .theme-btn {
+    position: absolute; right: 16px; top: 16px; width: 32px; height: 32px;
+    border-radius: 50%; border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05); color: #cbd5e1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.2s; font-size: 14px;
+  }
+  .theme-btn:hover { transform: scale(1.1); border-color: rgba(251,191,36,0.5); color: #fbbf24; }
 
-        .dark-mode h2 { color: #f1c40f !important; }
-        .dark-mode #nameDisplay { background: #2c3e50; color: #f1c40f; border-color: #f1c40f; }
-        .dark-mode .output-textarea { background: #2c3e50; color: #fff; border-color: #f1c40f; }
-        .dark-mode .quote-container { background: rgba(255, 255, 255, 0.05); border-left: 4px solid #f1c40f; color: #ddd; }
-        .dark-mode .quote-author { color: #f1c40f; }
+  header { text-align: center; position: relative; }
+  .logo-badge {
+    margin: 0 auto; width: 84px; height: 84px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f87171, #b91c1c 60%, #7f1d1d 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif; font-weight: 800; font-size: 28px; color: #fef3c7;
+    box-shadow: 0 8px 24px rgba(220,38,38,0.5), inset 0 2px 4px rgba(255,255,255,0.25);
+    border: 2px solid rgba(251,191,36,0.6);
+  }
+  h1 {
+    margin: 16px 0 0; font-family: 'Cinzel', serif; font-weight: 800; font-size: 26px;
+    letter-spacing: 0.03em;
+    background: linear-gradient(90deg, #fde68a, #fbbf24, #fde68a);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .subtitle-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; }
+  .subtitle-row span.line { height: 1px; width: 32px; background: linear-gradient(90deg, transparent, rgba(251,191,36,0.6)); }
+  .subtitle-row span.line.r { background: linear-gradient(270deg, transparent, rgba(251,191,36,0.6)); }
+  .subtitle { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3em; color: rgba(253,230,138,0.7); }
 
-        h2 {
-            color: #2c3e50; 
-            margin-top: 10px;
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
-        }
+  .field { margin-top: 16px; }
+  label { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; }
+  input[type=text] {
+    width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04); padding: 12px 16px; font-size: 14px; font-weight: 500;
+    color: #f1f5f9; outline: none; transition: 0.2s;
+  }
+  input[type=text]::placeholder { color: #64748b; }
+  input[type=text]:focus { border-color: rgba(251,191,36,0.7); background: rgba(255,255,255,0.06); box-shadow: 0 0 0 4px rgba(251,191,36,0.15); }
 
-        .btn-container {
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
+  .pw-wrap { position: relative; }
+  .pw-display {
+    min-height: 72px; display: flex; align-items: center; justify-content: center;
+    border-radius: 12px; border: 1px solid rgba(251,191,36,0.4);
+    background: linear-gradient(135deg, rgba(251,191,36,0.15), rgba(245,158,11,0.05), transparent);
+    padding: 16px 56px; text-align: center; font-size: 27px; font-weight: 900;
+    letter-spacing: 0.12em; color: #fde68a;
+    text-shadow: 0 2px 10px rgba(251,191,36,0.3);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    transition: 0.2s;
+  }
+  .pw-display.empty { font-size: 14px; font-weight: 400; letter-spacing: normal; color: #64748b; text-shadow: none; }
+  .copy-pw-btn {
+    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+    width: 36px; height: 36px; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05);
+    color: #cbd5e1; display: none; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.15s; font-size: 15px;
+  }
+  .copy-pw-btn.show { display: flex; }
+  .copy-pw-btn:hover { border-color: rgba(251,191,36,0.6); background: rgba(251,191,36,0.1); color: #fbbf24; }
+  .copy-pw-btn:active { transform: translateY(-50%) scale(0.9); }
+  .copy-pw-btn.copied { border-color: rgba(16,185,129,0.6); background: rgba(16,185,129,0.15); color: #34d399; }
 
-        button { 
-            background-color: #e74c3c; 
-            color: white; 
-            border: none; 
-            padding: 14px 24px; 
-            font-size: 16px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            transition: all 0.2s ease; 
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        }
-        button:hover { background-color: #c0392b; transform: translateY(-2px); }
-        button:active { transform: scale(0.95); }
+  textarea {
+    margin-top: 16px; height: 150px; width: 100%; resize: none; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);
+    padding: 12px; font-family: ui-monospace, monospace; font-size: 12px; line-height: 1.6;
+    color: #cbd5e1; outline: none; transition: 0.2s;
+  }
+  textarea::placeholder { color: #64748b; }
+  textarea:focus { border-color: rgba(251,191,36,0.6); }
 
-        .copy-btn { background-color: #27ae60; }
-        .copy-btn:hover { background-color: #219a52; }
+  .btn-row { display: flex; gap: 12px; margin-top: 20px; }
+  button.action {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+    border: none; border-radius: 12px; padding: 13px 16px; font-size: 14px; font-weight: 700;
+    color: #fff; cursor: pointer; transition: 0.2s; box-shadow: 0 10px 20px -6px rgba(0,0,0,0.5);
+  }
+  button.action:hover { transform: translateY(-2px); }
+  button.action:active { transform: scale(0.96); }
+  .btn-roll { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+  .btn-copy { background: linear-gradient(135deg, #fbbf24, #d97706); color: #1c1917; }
+  .btn-copy.done { background: linear-gradient(135deg, #10b981, #047857); color: #fff; }
 
-        .theme-toggle {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 0;
-            margin: 0;
-            box-shadow: none;
-            transition: transform 0.2s ease;
-            z-index: 200;
-        }
-        .theme-toggle:hover { transform: scale(1.2); background: none; }
+  .alert { margin-top: 10px; height: 20px; text-align: center; font-size: 12px; font-weight: 600; color: #34d399; transition: 0.2s; }
+  .alert.err { color: #f87171; }
 
-        #nameDisplay { 
-            font-size: 26px; 
-            font-weight: bold; 
-            margin: 20px 0 10px 0; 
-            min-height: 38px; 
-            color: #d35400; 
-            padding: 12px; 
-            background: #fdf6e2; 
-            border-radius: 8px; 
-            border: 2px dashed #e67e22; 
-            letter-spacing: 2px; 
-            transition: all 0.3s ease;
-        }
+  blockquote {
+    margin: 18px 0 0; border-left: 3px solid rgba(251,191,36,0.7);
+    background: rgba(255,255,255,0.03); padding: 12px 16px; border-radius: 0 8px 8px 0;
+  }
+  blockquote p { margin: 0; font-size: 13px; font-style: italic; line-height: 1.6; color: #cbd5e1; }
+  blockquote footer { margin-top: 4px; text-align: right; font-size: 11px; font-weight: 700; color: #fbbf24; }
 
-        .output-textarea {
-            width: 100%;
-            height: 80px;
-            margin: 10px 0 15px 0;
-            padding: 10px;
-            border-radius: 8px;
-            border: 2px solid #e67e22;
-            background: #fffdf9;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-            resize: none;
-            box-sizing: border-box; 
-            font-weight: bold;
-            color: #333;
-            transition: all 0.3s ease;
-        }
+  .footnote { margin-top: 16px; text-align: center; font-size: 11px; letter-spacing: 0.05em; color: #64748b; }
 
-        .quote-container {
-            margin-top: 20px;
-            padding: 12px 15px;
-            background: rgba(0, 0, 0, 0.03);
-            border-left: 4px solid #e67e22;
-            border-radius: 4px;
-            text-align: left;
-            transition: all 0.3s ease;
-        }
-        .quote-text { font-style: italic; font-size: 14.5px; line-height: 1.5; color: #555; margin: 0 0 6px 0; }
-        .quote-author { font-size: 12px; font-weight: bold; color: #e67e22; text-align: right; margin: 0; }
-        #alert { color: #27ae60; font-size: 14px; height: 20px; font-weight: bold; margin-top: 5px; }
-    </style>
+  @media (max-width: 420px) {
+    .pw-display { font-size: 22px; padding: 14px 48px; }
+  }
+</style>
 </head>
-<body class="dark-mode">
+<body>
 
-    <div id="snowflake-container"></div>
+<div id="snow"></div>
 
-    <div class="card">
-        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀️</button>
+<div class="card-frame">
+  <div class="card">
+    <div class="sheen"></div>
+    <button class="theme-btn" id="themeBtn" title="Ganti tema">☀️</button>
 
-        <h2>🏴‍☠️ Straw Hat Fruit Generator 🍊</h2>
-        <div id="nameDisplay">klik tombol di bawah</div>
-        
-        <textarea id="formatDisplay" class="output-textarea" readonly placeholder="Format teks akan muncul di sini..."></textarea>
+    <header>
+      <div class="logo-badge">AB</div>
+      <h1>Straw Hat Reset</h1>
+      <div class="subtitle-row">
+        <span class="line"></span>
+        <span class="subtitle">Password Generator · Bosku Edition</span>
+        <span class="line r"></span>
+      </div>
+    </header>
 
-        <div class="btn-container">
-            <button onclick="generateFruitNumberCode()">Acak Kode</button>
-            <button class="copy-btn" onclick="copyCode()">Salin Kode</button>
-        </div>
-        
-        <div id="alert"></div>
-
-        <div class="quote-container">
-            <p class="quote-text">"Laut itu luas... Suatu hari nanti, pasti akan muncul teman yang akan melindungimu!"</p>
-            <p class="quote-author">— Jaguar D. Saul</p>
-        </div>
+    <div class="field">
+      <label>User ID</label>
+      <input type="text" id="userId" placeholder="Masukkan User ID bosku..." />
     </div>
 
-    <script>
-        const container = document.getElementById('snowflake-container');
-        const maxSnowflakes = 40;
+    <div class="field">
+      <label>🔑 Password Baru</label>
+      <div class="pw-wrap">
+        <div class="pw-display empty" id="pwDisplay">klik "Acak Kode" di bawah</div>
+        <button class="copy-pw-btn" id="copyPwBtn" title="Salin password">📋</button>
+      </div>
+    </div>
 
-        function createSnowflake() {
-            if (container.children.length >= maxSnowflakes) return;
+    <textarea id="formatted" readonly placeholder="Format pesan akan muncul di sini setelah kode diacak..."></textarea>
 
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
+    <div class="btn-row">
+      <button class="action btn-roll" id="rollBtn">🎲 Acak Kode</button>
+      <button class="action btn-copy" id="copyMsgBtn">📋 Salin Pesan</button>
+    </div>
 
-            const size = Math.random() * 4 + 2;
-            snowflake.style.width = `${size}px`;
-            snowflake.style.height = `${size}px`;
-            snowflake.style.left = `${Math.random() * 100}%`;
-            snowflake.style.top = `-10px`;
+    <div class="alert" id="alertMsg"></div>
 
-            container.appendChild(snowflake);
+    <blockquote>
+      <p id="quoteText"></p>
+      <footer id="quoteBy"></footer>
+    </blockquote>
+  </div>
+</div>
 
-            let topPos = -10;
-            let leftPos = parseFloat(snowflake.style.left);
-            const drift = Math.random() * 0.4 - 0.2;
+<p class="footnote">Set sail with One Piece · Handle with care, bosku</p>
 
-            const fallInterval = setInterval(() => {
-                topPos += Math.random() * 1 + 0.5;
-                leftPos += drift;
+<script>
+  // snow
+  const snow = document.getElementById('snow');
+  for (let i = 0; i < 45; i++) {
+    const f = document.createElement('span');
+    f.className = 'flake';
+    const size = Math.random() * 4 + 2;
+    const drift = Math.random() * 40 - 20;
+    f.style.left = Math.random() * 100 + '%';
+    f.style.width = size + 'px';
+    f.style.height = size + 'px';
+    f.style.opacity = Math.random() * 0.5 + 0.4;
+    f.style.setProperty('--drift', drift + 'px');
+    f.style.animationDuration = (Math.random() * 8 + 8) + 's';
+    f.style.animationDelay = (Math.random() * 12) + 's';
+    snow.appendChild(f);
+  }
 
-                snowflake.style.top = `${topPos}px`;
-                snowflake.style.left = `${leftPos}%`;
+  const WIN_WORDS = ["menang","juara","gacor","jackpot","hoki","sultan","cuan","maxwin","scatter","jitu","berkah","rezeki","sukses","victory","champion","winner","angkabet","bosku","raja","emas"];
+  const QUOTES = [
+    { text: "Laut itu luas... Suatu hari nanti, pasti akan muncul teman yang akan melindungimu!", by: "Jaguar D. Saul" },
+    { text: "Kalau kau tidak mengambil risiko, kau tidak bisa menciptakan masa depan.", by: "Monkey D. Luffy" },
+    { text: "Ketika kau merasa ingin menangis, tertawalah!", by: "Nico Robin" },
+    { text: "Seorang pria sejati memaafkan kesalahan wanita dengan diam.", by: "Sanji" },
+  ];
+  const q = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+  document.getElementById('quoteText').textContent = '“' + q.text + '”';
+  document.getElementById('quoteBy').textContent = '— ' + q.by;
 
-                if (topPos > window.innerHeight) {
-                    clearInterval(fallInterval);
-                    snowflake.remove();
-                }
-            }, 20);
-        }
+  function generatePassword() {
+    const raw = WIN_WORDS[Math.floor(Math.random() * WIN_WORDS.length)];
+    const base = raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase();
+    let result = base;
+    while (result.length < 9) result += Math.floor(Math.random() * 10);
+    return result;
+  }
 
-        setInterval(createSnowflake, 300);
+  let password = "";
+  const userIdInput = document.getElementById('userId');
+  const pwDisplay = document.getElementById('pwDisplay');
+  const copyPwBtn = document.getElementById('copyPwBtn');
+  const formattedArea = document.getElementById('formatted');
+  const alertMsg = document.getElementById('alertMsg');
+  const copyMsgBtn = document.getElementById('copyMsgBtn');
 
-        function toggleTheme() {
-            const body = document.body;
-            const themeBtn = document.getElementById("themeBtn");
-            body.classList.toggle("dark-mode");
-            themeBtn.innerText = body.classList.contains("dark-mode") ? "☀️" : "🌙";
-        }
+  function formatMessage() {
+    if (!password) return "";
+    return `Sudah kami bantu resetkan ya bosku, silakan di cek/dicoba login ya bosku.
 
-        const fruits = ["apel", "jeruk", "mangga", "pisang", "melon", "durian", "jambu", "nanas", "anggur", "pepaya", "salak", "manggis"];
+User Id : ${userIdInput.value}
+Password : ${password}
 
-        function generateFruitNumberCode() {
-            const display = document.getElementById("nameDisplay");
-            const formatDisplay = document.getElementById("formatDisplay");
-            document.getElementById("alert").innerText = ""; 
+NB : mohon tidak memberikan password / PIN anda kepada orang lain dan jagalah kerahasiaan ID anda. segala bentuk kehilangan chip karena adanya permainan tidak dapat dikembalikan dengan alasan apapun. kami sarankan untuk melakukan pergantian password secara berkala ya bosku.
 
-            const randomIndex = Math.floor(Math.random() * fruits.length);
-            let result = fruits[randomIndex];
-            
-            if (result.length > 5) {
-                result = result.substring(0, 5);
-            }
-            
-            while (result.length < 8) {
-                const randomDigit = Math.floor(Math.random() * 10);
-                result += randomDigit;
-            }
-            
-            display.innerText = result.toLowerCase();
-            formatDisplay.value = `User id : \nKata sandi : ${result.toLowerCase()}\nSilakan dicoba ya bosku , terima kasih`;
-        }
+terima kasih`;
+  }
 
-        function copyCode() {
-            const formatDisplay = document.getElementById("formatDisplay");
-            const alertDiv = document.getElementById("alert");
-            const textToCopy = formatDisplay.value;
+  function refreshFormatted() {
+    formattedArea.value = formatMessage();
+  }
+  userIdInput.addEventListener('input', refreshFormatted);
 
-            if (textToCopy === "") {
-                alertDiv.style.color = "#e74c3c";
-                alertDiv.innerText = "🚨 Acak kode terlebih dahulu!";
-                return;
-            }
+  document.getElementById('rollBtn').addEventListener('click', () => {
+    password = generatePassword();
+    pwDisplay.textContent = password;
+    pwDisplay.classList.remove('empty');
+    copyPwBtn.classList.add('show');
+    copyPwBtn.classList.remove('copied');
+    copyPwBtn.textContent = '📋';
+    copyMsgBtn.classList.remove('done');
+    copyMsgBtn.innerHTML = '📋 Salin Pesan';
+    alertMsg.textContent = '';
+    alertMsg.classList.remove('err');
+    refreshFormatted();
+  });
 
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alertDiv.style.color = "#27ae60";
-                alertDiv.innerText = "📋 Format Teks berhasil disalin!";
-                
-                setTimeout(() => {
-                    alertDiv.innerText = "";
-                }, 2000);
-            }).catch(err => {
-                alertDiv.style.color = "#e74c3c";
-                alertDiv.innerText = "Gagal menyalin kode.";
-            });
-        }
-    </script>
+  copyPwBtn.addEventListener('click', async () => {
+    if (!password) return;
+    try {
+      await navigator.clipboard.writeText(password);
+      copyPwBtn.classList.add('copied');
+      copyPwBtn.textContent = '✅';
+      alertMsg.textContent = '🔑 Password berhasil disalin!';
+      alertMsg.classList.remove('err');
+      setTimeout(() => {
+        copyPwBtn.classList.remove('copied');
+        copyPwBtn.textContent = '📋';
+        alertMsg.textContent = '';
+      }, 1800);
+    } catch {
+      alertMsg.textContent = 'Gagal menyalin password.';
+      alertMsg.classList.add('err');
+    }
+  });
+
+  copyMsgBtn.addEventListener('click', async () => {
+    const text = formatMessage();
+    if (!text) {
+      alertMsg.textContent = '🚨 Acak kode terlebih dahulu bosku!';
+      alertMsg.classList.add('err');
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      alertMsg.textContent = '📋 Format teks berhasil disalin!';
+      alertMsg.classList.remove('err');
+      copyMsgBtn.classList.add('done');
+      copyMsgBtn.innerHTML = '✅ Salin Pesan';
+      setTimeout(() => { alertMsg.textContent = ''; }, 2200);
+    } catch {
+      alertMsg.textContent = 'Gagal menyalin.';
+      alertMsg.classList.add('err');
+    }
+  });
+
+  document.getElementById('themeBtn').addEventListener('click', function() {
+    this.textContent = this.textContent === '☀️' ? '🌙' : '☀️';
+  });
+</script>
+
 </body>
 </html>
